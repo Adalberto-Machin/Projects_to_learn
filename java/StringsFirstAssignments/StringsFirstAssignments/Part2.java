@@ -36,11 +36,13 @@ public class Part2 {
         String no_TAA = "atggggtttatatatag";
         String neither = "gggtttatatatag";
         String no_multiple_of_3 = "cccatggggtttaattt";
-        all_cases.addAll(List.of(fine, no_ATG, no_TAA, neither,no_multiple_of_3));
+        String assigment = "AAATGCCCTAACTAGATTAAGAAACC";
+        all_cases.addAll(List.of(fine, no_ATG, no_TAA, neither,no_multiple_of_3, assigment));
         
         for (String case_example : all_cases) {
             //String result = findSimpleGene(a);
             //System.out.println("testing " + case_example);
+            //System.out.println("Example " + case_example);
             String result = findSimpleGene(case_example, "ATG", "TAA");
             System.out.println("DNA strand " + result + " length " + result.length());
         }

@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Part4
+comment0.text=\r\n\ Adalberto\ Machin\r\n\ Finding\ genes\ in\ DNA\ strands\ simple\r\n
+comment1.params=URL_link
+comment1.target=java.lang.String\ string_parser(java.lang.String)
+comment2.params=
+comment2.target=void\ testing()
+numComments=3

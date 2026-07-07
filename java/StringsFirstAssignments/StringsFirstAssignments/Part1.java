@@ -34,7 +34,8 @@ public class Part1 {
         String no_TAA = "atggggtttatatatag";
         String neither = "gggtttatatatag";
         String no_multiple_of_3 = "cccatggggtttaattt";
-        all_cases.addAll(List.of(fine, no_ATG, no_TAA, neither,no_multiple_of_3));
+        String assigment = "AAATGCCCTAACTAGATTAAGAAACC";
+        all_cases.addAll(List.of(fine, no_ATG, no_TAA, neither,no_multiple_of_3, assigment));
         
         for (String case_example : all_cases) {
             //String result = findSimpleGene(a);
