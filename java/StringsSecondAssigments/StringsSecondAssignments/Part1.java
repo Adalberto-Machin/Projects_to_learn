@@ -30,6 +30,33 @@ public class Part1 {
         return dna.length();
     }
     
+    public String findGene(String dna){
+        String gene = ""; // this is the gene we have identified after finding the start and stop codons
+        dna = dna.toLowerCase();
+        String start_codon = "atg";
+        int startIndex = dna.indexOf(start_codon);
+        if (startIndex == -1){
+            return ""; // return empty spring if there is no start codon that can be identified
+        }
+        else{
+            // proceed to find the stop codon with the startIndex information
+            int stopIndex_TAA = findStopCodon(dna, startIndex, "TAA");
+            int stopIndex_TAG = findStopCodon(dna, startIndex, "TAG");
+            int stopIndex_TGA = findStopCodon(dna, startIndex, "TGA");
+            int stop_min_index = Math.min(stopIndex_TAA, Math.min(stopIndex_TAG,stopIndex_TGA));
+            if (stop_min_index == dna.length()){
+                // we did not find any of the stop codons so return empty string
+                return "";
+            }
+            else {
+                // set gene to be equal to the info from the start and stop codons
+                gene = dna.substring(startIndex, stop_min_index);
+            }
+        }
+        
+        return gene;
+    }
+
     public void testFindStopCodon(){
         List<String> all_cases = new ArrayList<>();
         String fine = "cccatggtggtttaaataataataggagagagagagagagttt";
