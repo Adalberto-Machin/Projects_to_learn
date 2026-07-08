@@ -23,7 +23,7 @@ public class Part1 {
                     return current_index;
                 }
                 else {
-                    current_index = current_index+1;
+                    current_index = current_index+1; // fix bug here by watching video of coding while loops
                 }
             }
         }
