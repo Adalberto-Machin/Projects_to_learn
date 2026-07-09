@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=DEBUG1
+comment0.text=\r\n\ Adalberto\ Machin\r\n\ Finding\ genes\ in\ DNA\ strands\ complex\r\n
+comment1.params=stringa\ stringb
+comment1.target=int\ howMany(java.lang.String,\ java.lang.String)
+comment2.params=
+comment2.target=void\ testhowMany()
+numComments=3
