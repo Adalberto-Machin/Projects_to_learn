@@ -6,7 +6,7 @@ import java.util.List;
  * Adalberto Machin
  * Finding genes in DNA strands complex
  */
-public class Part1 {
+public class Part3 {
     public int findStopCodon (String dna, int startIndex, String stopCodon) {
         // returns the index of the first ocurrence of stopCodon that appears past the startIndex and is a multiple of 3 away from the startIndex
         // if there is no such stopCodon, method returns the length of the DNA strand
@@ -72,53 +72,50 @@ public class Part1 {
             startIndex = dna.indexOf(gene, startIndex) + gene.length();
         }
     }
-    public void testFindStopCodon(){
-        List<String> all_cases = new ArrayList<>();
-        String fine = "cccatggtggtttaaataataataggagagagagagagagttt";
-        String no_ATG = "gggtttaaataataatag";
-        String no_TAA = "atggggtttatatatag";
-        String neither = "gggtttatatatag";
-        String no_multiple_of_3 = "cccatggggtttaattt";
-        String assigment = "AAATGCCCTAACTAGATTAAGAAACC";
-        String fine_TAG = "cccatggtggtttagatagtagtaggagagagagagagagttt";
-        String multiple_stop = "cccatggtggtttaaatagtaataggagatgagagagagagttagtttatgjhgkeowfodrgjtga";
-        all_cases.addAll(List.of(fine, no_ATG, no_TAA, neither,no_multiple_of_3, assigment, fine_TAG, multiple_stop));
-        
-        System.out.println("test the method findStopCodon");
-        //test the method findStopCodon
-        int result = findStopCodon(fine, 3, "TAA");
-        System.out.println("stop codon found in index " + result + " DNA length was " + fine.length());
-        result = findStopCodon(no_TAA, 3, "TAA");
-        System.out.println("stop codon found in index " + result + " DNA length was " + no_TAA.length());
-        System.out.println("Complete");
-    }
-        
-    public void testFindGene(){
-        List<String> all_cases = new ArrayList<>();
-        String fine = "cccatggtggtttaaataataataggagagagagagagagttt";
-        String no_ATG = "gggtttaaataataatag";
-        String no_TAA = "atggggtttatatatag";
-        String neither = "gggtttatatatag";
-        String no_multiple_of_3 = "cccatggggtttaattt";
-        String assigment = "AAATGCCCTAACTAGATTAAGAAACC";
-        String fine_TAG = "cccatggtggtttagatagtagtaggagagagagagagagttt";
-        String multiple_stop = "cccatggtggtttaaatagtaataggagatgagagagagagttagtttatgjhgkeowfodrgjtga";
-        String problem_q1 = "AATGCTAACTAGCTGACTAAT";
-        all_cases.addAll(List.of(fine, no_ATG, no_TAA, neither,no_multiple_of_3, assigment, fine_TAG, multiple_stop, problem_q1));
-        
-        System.out.println("test the method findGene");
-        // test the method findGene
-        for (String case_example : all_cases) {
-            String result_dna = findGene(case_example, 0);
-            System.out.println("testing " + case_example);
-            System.out.println("Gene strand " + result_dna + " length of total DNA " + case_example.length());
+    
+    public int countGenes(String dna){
+        // method that returns the number of genes found in a strand of DNA
+        String gene = ""; // this is the gene we have identified after finding the start and stop codons 
+        int startIndex = 0;
+        int gene_count = 0;
+        System.out.println("testing DNA of " + dna);
+        while (true){
+            // Find the gene
+            gene = findGene(dna, startIndex);
+            if (gene.isEmpty()){
+                //System.out.println("No more genes to find with last startIndex of " + startIndex);
+                return gene_count;
+            }
+            else {
+                // gene was found so increase the gene count
+                gene_count  = gene_count + 1;
+            }
+            //System.out.println("Found a gene starting at " +  dna.indexOf(gene, startIndex) + " and value of " + gene);
+            startIndex = dna.indexOf(gene, startIndex) + gene.length();
         }
-        System.out.println("Complete");
+    }
+    
         
-        System.out.println("////////////////////////Testing print all genes //////////////////////");
-        //test the method printAllGenes
+    public void testCountGenes (){
+        List<String> all_cases = new ArrayList<>();
+        String fine = "cccatggtggtttaaataataataggagagagagagagagttt";
+        String no_ATG = "gggtttaaataataatag";
+        String no_TAA = "atggggtttatatatag";
+        String neither = "gggtttatatatag";
+        String no_multiple_of_3 = "cccatggggtttaattt";
+        String assigment = "AAATGCCCTAACTAGATTAAGAAACC";
+        String fine_TAG = "cccatggtggtttagatagtagtaggagagagagagagagttt";
+        String multiple_stop = "cccatggtggtttaaatagtaataggagatgagagagagagttagtttatgjhgkeowfodrgjtga";
+        String multiple_easy = "atgabccdabcdabcccctaaatguuuuuutagjjjjjjjjjjjjjjjjjjjjjjatgjjjjjjjjjjjjjjjjjjtga";
+        all_cases.addAll(List.of(fine, no_ATG, no_TAA, neither,no_multiple_of_3, assigment, fine_TAG, multiple_stop, multiple_easy));
+        
+        
+        
+        System.out.println("Testing countGenes ");
+        // test the method printAllGenes
         for (String case_example : all_cases) {
-            printAllGenes(case_example);             
+            int gene_number = countGenes(case_example);
+            System.out.println(" found this number of genes " + gene_number);
         }
         System.out.println("Complete ");
 
