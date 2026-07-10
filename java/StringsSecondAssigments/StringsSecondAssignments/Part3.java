@@ -73,6 +73,27 @@ public class Part3 {
         }
     }
     
+        public StorageResource getAllGenes (String dna){
+        // this method will find all of the genes in the DNA strand
+        StorageResource geneList = new StorageResource();
+        String gene = ""; // this is the gene we have identified after finding the start and stop codons 
+        int startIndex = 0;
+        //System.out.println("testing DNA of " + dna);
+        while (true){
+            // Find the gene
+            gene = findGene(dna, startIndex);
+            if (gene.isEmpty()){
+                System.out.println("No more genes to find with last startIndex of " + startIndex);
+                break;
+            }
+            //System.out.println("Found a gene starting at " +  dna.indexOf(gene, startIndex) + " and value of " + gene);
+            // add the gene to the storage resource
+            geneList.add(gene);
+            startIndex = dna.indexOf(gene, startIndex) + gene.length();
+        }
+        return geneList;
+    }
+    
     public int countGenes(String dna){
         // method that returns the number of genes found in a strand of DNA
         String gene = ""; // this is the gene we have identified after finding the start and stop codons 
@@ -116,6 +137,36 @@ public class Part3 {
         for (String case_example : all_cases) {
             int gene_number = countGenes(case_example);
             System.out.println(" found this number of genes " + gene_number);
+        }
+        System.out.println("Complete ");
+
+    }
+    
+    
+    public void testgetAllGenes(){
+        List<String> all_cases = new ArrayList<>();
+        String fine = "cccatggtggtttaaataataataggagagagagagagagttt";
+        String no_ATG = "gggtttaaataataatag";
+        String no_TAA = "atggggtttatatatag";
+        String neither = "gggtttatatatag";
+        String no_multiple_of_3 = "cccatggggtttaattt";
+        String assigment = "AAATGCCCTAACTAGATTAAGAAACC";
+        String fine_TAG = "cccatggtggtttagatagtagtaggagagagagagagagttt";
+        String multiple_stop = "cccatggtggtttaaatagtaataggagatgagagagagagttagtttatgjhgkeowfodrgjtga";
+        String multiple_easy = "atgabccdabcdabcccctaaatguuuuuutagjjjjjjjjjjjjjjjjjjjjjjatgjjjjjjjjjjjjjjjjjjtga";
+        all_cases.addAll(List.of(fine, no_ATG, no_TAA, neither,no_multiple_of_3, assigment, fine_TAG, multiple_stop, multiple_easy));
+        
+        
+        
+        System.out.println("Testing getAllGenes ");
+        // test the method printAllGenes
+        for (String case_example : all_cases) {
+            StorageResource gene_stored = getAllGenes(case_example);
+            // iterate over the things in the storage resource
+            System.out.println("in this case, the found genes are");
+            for (String g: gene_stored.data()){
+                System.out.println("gene is: " + g);
+            }
         }
         System.out.println("Complete ");
 
