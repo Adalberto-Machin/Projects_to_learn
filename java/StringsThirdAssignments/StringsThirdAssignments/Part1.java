@@ -67,7 +67,7 @@ public class Part1 {
             int c_count = 0;
             int g_count = 0;
             
-            System.out.println("DNA strand to analyze is  " + dna);
+            //System.out.println("DNA strand to analyze is  " + dna);
             // find the number of times C occurs
             while (found_index != -1){
                 found_index = dna.indexOf("c", c_index);
@@ -76,7 +76,7 @@ public class Part1 {
                     c_count = c_count + 1;
                 }
                 
-                System.out.println("C count is  " + c_count);
+                //System.out.println("C count is  " + c_count);
             }
             
             // reset found index back to 0 to find G
@@ -90,7 +90,7 @@ public class Part1 {
                     g_count = g_count + 1;
                 }
                 
-                System.out.println("G count is  " + g_count);
+                //System.out.println("G count is  " + g_count);
             }
             
             double cgratio_result = ((double) (c_count + g_count)) / dna.length();
@@ -105,7 +105,7 @@ public class Part1 {
             dna = dna.toLowerCase();
             int ctg_count = 0;
             
-            System.out.println("DNA strand to analyze is  " + dna);
+            //System.out.println("DNA strand to analyze is  " + dna);
             // find the number of times C occurs
             while (found_index != -1){
                 found_index = dna.indexOf("ctg", ctg_index);
@@ -130,7 +130,7 @@ public class Part1 {
             // Find the gene
             gene = findGene(dna, startIndex);
             if (gene.isEmpty()){
-                System.out.println("No more genes to find with last startIndex of " + startIndex);
+                //System.out.println("No more genes to find with last startIndex of " + startIndex);
                 break;
             }
             //System.out.println("Found a gene starting at " +  dna.indexOf(gene, startIndex) + " and value of " + gene);
@@ -145,9 +145,11 @@ public class Part1 {
         int count_9 = 0;
         int count_cg_ratio = 0;
         int current_length = 0;
+        int count_more_60 = 0;
         int max_length = 0;
         double cg_ratio_result = 0;
         for (String dna: sr.data()){
+            System.out.println("///////////////////////////////////////+++++++++++++++++++++++++++PROCESSING GENE: " + dna);
             if (dna.length() > 9){
                 count_9 = count_9 + 1;
                 System.out.println("String with count greater than 9 found, which is " + dna);
@@ -158,6 +160,11 @@ public class Part1 {
                 System.out.println("String with c-g ratio greater than 0.35 found, which is " + dna);
                 count_cg_ratio = count_cg_ratio + 1;
             }
+            
+            if (dna.length()>60){
+                System.out.println("String with more than 60 length, which is " + dna);
+                count_more_60 = count_more_60 + 1;
+            }
             //track the length of the longest gene in sr
             current_length = dna.length();
             if (current_length > max_length){
@@ -167,6 +174,7 @@ public class Part1 {
         System.out.println("number of Strings in sr that are longer than 9 characters is " + count_9);
         System.out.println("number of Strings in sr that have c-g ratio higher than 0.35 " + count_cg_ratio);
         System.out.println("Longest gene is " + max_length);
+        System.out.println("Strings with more than 60 characters is " + count_more_60);
     }
     
         public void testgetAllGenes(){
@@ -215,7 +223,48 @@ public class Part1 {
     }
     
     public void testProcessGenes(){
-    // this method will test the process genes method
+        // this method will test the process genes method
+        StorageResource DNAList = new StorageResource();
+        //StorageResource geneList = new StorageResource();
+        StorageResource gene_middle_list = new StorageResource();
+        String fine = "cccatggtggtttaaataataataggagagagagagagagttt";
+        String no_ATG = "gggtttaaataataatag";
+        String no_TAA = "atggggtttatatatag";
+        String neither = "gggtttatatatag";
+        String no_multiple_of_3 = "cccatggggtttaattt";
+        String assigment = "AAATGCCCTAACTAGATTAAGAAACC";
+        String fine_TAG = "cccatggtggtttagatagtagtaggagagagagagagagtttcccatggtggtttagatagtagtaggagagagagagagagtttASDGSFDHHFcccatggtggtttagatagtagtaggagagagagagagagtttSHATDREJHNFHGcccatggtggtttagatagtagtaggagagagagagagagttt";
+        String multiple_stop = "cccatggtggtttaaatagtaataggagatgagagagagagttagtttatgjhgkeowfodrgjtga";
+        String multiple_easy = "atgabccdabcdabcccctaaatguuuuuutagjjjjjjjjjjjjjjjjjjjjjjatgjjjjjjjjjjjjjjjjjjtga";
+        DNAList.add(fine);
+        DNAList.add(no_ATG);
+        DNAList.add(no_TAA);
+        DNAList.add(neither);
+        DNAList.add(no_multiple_of_3);
+        DNAList.add(assigment);
+        DNAList.add(fine_TAG);
+        DNAList.add(multiple_stop);
+        DNAList.add(multiple_easy);
+        
+        
+        System.out.println("TESTING PROCESS GENES//////////////////////////////////////////");
+        // now gather all of the genes from the examples
+        for (String strand:DNAList.data()){
+            System.out.println("PROCESSING STRAND//////////////////////////////////////////-------------------" + strand);
+            gene_middle_list = getAllGenes(strand);
+            processGenes(gene_middle_list);
+        }
+        System.out.println("DONE//////////////////////////////////////////");
+        
+        // use file resource for the test
+        FileResource fr = new FileResource("C:/Users/machi/Desktop/gatech/prep/Projects_to_learn/java/tagFinder2/brca1line.fa");
+        String dna = fr.asString();
+        System.out.println("GETTING GENES FROM FILES //////////////////////////////////////////" + dna);
+        System.out.println("PROCESSING STRAND//////////////////////////////////////////-------------------" + dna);
+        gene_middle_list = getAllGenes(dna);
+        System.out.println("NUMBER OF GENES HERE IS ####################################################" + gene_middle_list.size());
+        processGenes(gene_middle_list);
+    
     }
 }
 
