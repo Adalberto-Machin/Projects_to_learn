@@ -128,6 +128,7 @@ public class Part1 {
         //System.out.println("testing DNA of " + dna);
         while (true){
             // Find the gene
+            //System.out.println("DEBUG: startIndex is " + startIndex);
             gene = findGene(dna, startIndex);
             if (gene.isEmpty()){
                 //System.out.println("No more genes to find with last startIndex of " + startIndex);
@@ -136,7 +137,7 @@ public class Part1 {
             //System.out.println("Found a gene starting at " +  dna.indexOf(gene, startIndex) + " and value of " + gene);
             // add the gene to the storage resource
             geneList.add(gene);
-            startIndex = dna.indexOf(gene, startIndex) + gene.length();
+            startIndex = dna.toLowerCase().indexOf(gene, startIndex) + gene.length();
         }
         return geneList;
     }
@@ -144,6 +145,7 @@ public class Part1 {
     public void processGenes (StorageResource sr){
         int count_9 = 0;
         int count_cg_ratio = 0;
+        //int count_ctg_codon = 0;
         int current_length = 0;
         int count_more_60 = 0;
         int max_length = 0;
@@ -154,7 +156,7 @@ public class Part1 {
                 count_9 = count_9 + 1;
                 System.out.println("String with count greater than 9 found, which is " + dna);
             }
-            // get the C-G ratio 
+            // get the C-G ratio and counter
             cg_ratio_result = cgRatio(dna);
             if (cg_ratio_result > 0.35){
                 System.out.println("String with c-g ratio greater than 0.35 found, which is " + dna);
@@ -175,6 +177,7 @@ public class Part1 {
         System.out.println("number of Strings in sr that have c-g ratio higher than 0.35 " + count_cg_ratio);
         System.out.println("Longest gene is " + max_length);
         System.out.println("Strings with more than 60 characters is " + count_more_60);
+        //System.out.println("Number of times CTG codon appears " + count_ctg_codon);
     }
     
         public void testgetAllGenes(){
@@ -247,24 +250,64 @@ public class Part1 {
         DNAList.add(multiple_easy);
         
         
-        System.out.println("TESTING PROCESS GENES//////////////////////////////////////////");
+        //System.out.println("TESTING PROCESS GENES//////////////////////////////////////////");
         // now gather all of the genes from the examples
-        for (String strand:DNAList.data()){
-            System.out.println("PROCESSING STRAND//////////////////////////////////////////-------------------" + strand);
-            gene_middle_list = getAllGenes(strand);
-            processGenes(gene_middle_list);
-        }
-        System.out.println("DONE//////////////////////////////////////////");
+        //for (String strand:DNAList.data()){
+            //System.out.println("PROCESSING STRAND//////////////////////////////////////////-------------------" + strand);
+            //gene_middle_list = getAllGenes(strand);
+            //processGenes(gene_middle_list);
+        //}
+        //System.out.println("DONE//////////////////////////////////////////");
         
         // use file resource for the test
-        FileResource fr = new FileResource("C:/Users/machi/Desktop/gatech/prep/Projects_to_learn/java/tagFinder2/brca1line.fa");
+          System.out.println("TESTING PROCESS GENES from files //////////////////////////////////////////");
+        FileResource fr = new FileResource("C:/Users/machi/Desktop/gatech/prep/Projects_to_learn/java/tagFinder2/GRch38dnapart.fa");
         String dna = fr.asString();
         System.out.println("GETTING GENES FROM FILES //////////////////////////////////////////" + dna);
         System.out.println("PROCESSING STRAND//////////////////////////////////////////-------------------" + dna);
         gene_middle_list = getAllGenes(dna);
         System.out.println("NUMBER OF GENES HERE IS ####################################################" + gene_middle_list.size());
         processGenes(gene_middle_list);
-    
+        int count_ctg_codon = countCTG(dna);
+        System.out.println("NUMBER OF CTG codons in DNA strand HERE IS ####################################################" + count_ctg_codon);
     }
+    
+    public String string_parser (String URL_link){
+        // program that reads lines from the file at this URL location
+        // prints each URL on the page that is a link to youtube.com
+        //Assume that a link to youtube.com has no spaces in it 
+        //and would be in the format (where [stuff] represents characters that are not verbatim): “http:[stuff]youtube.com[stuff]”
+        // use URL resource to read file at http://www.dukelearntoprogram.com/course2/data/manylinks.html
+        URLResource ur = new URLResource(URL_link);
+        String to_check = "youtube.com";
+        // strategy
+        // check each line in the URL
+        // make it lower case
+        // check if youtube.com” is in it
+        // extract the string
+        // print the string
+        
+        String line_to_be_checked = null;
+        String extracted_line = null;
+        int extracted_line_beg = 0;
+        int extracted_line_end = 0;
+        for (String line_example : ur.lines()){
+            // make the string lower case
+            line_to_be_checked = line_example.toLowerCase();
+            int youtube_presence = line_to_be_checked.indexOf(to_check);
+            if (youtube_presence != -1){
+                // just return the lines in quotation marks
+                extracted_line_beg = line_example.lastIndexOf("\"",youtube_presence);
+                extracted_line_end= line_example.indexOf("\"",youtube_presence);
+                System.out.println(line_example.substring(extracted_line_beg,extracted_line_end+1));
+            }
+        }
+        return null;
+    }
+    
+    public void teststring_parser(){
+    String result = string_parser("https://www.dukelearntoprogram.com/course2/data/manylinks.html");
+    System.out.println("Result is " + result);
+    }   
 }
 
